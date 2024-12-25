@@ -1,9 +1,13 @@
 const express = require('express');
+
+const { PORT } = require('./config/serverConfig');
 const app = express();
 
 const prepareAndStartServer = () => {
-    app.listen(3001, () => {
-        console.log('server stsarted at port 3001');
+    app.listen(PORT, () => {
+        console.log(`server started on Port : ${PORT}`);
+        console.log(process.env);
+        console.log(process);
     })
 }
 
