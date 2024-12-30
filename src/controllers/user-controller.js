@@ -13,7 +13,7 @@ const create = async (req, res) => {
             message: 'successfullly created new user',
             data: response,
             err: {}
-        })
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -21,7 +21,7 @@ const create = async (req, res) => {
             data: {},
             success: false,
             err: error
-        })
+        });
     }
 }
 
