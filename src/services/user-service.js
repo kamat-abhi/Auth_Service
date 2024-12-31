@@ -6,7 +6,7 @@ const { JWT_KEY } = require('../config/serverConfig');
 
 class UserService{
     constructor(){
-        this.userRepository = new UserRepository();
+        this.userRepository = new UserRepository(); 
     }
 
     async create(data){
