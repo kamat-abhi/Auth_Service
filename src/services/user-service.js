@@ -47,6 +47,23 @@ class UserService{
         }
     }
 
+    async isAuthenticated(token){
+        try {
+            const response = this.verifyToken(token);
+            if(!response){
+                throw { error: 'invalid token'}
+            }
+            const user = this.userRepository.getById(response.id);
+            if(!user){
+                throw { error: 'no user with the corresponding token exists'};
+            }
+            return user.id;
+        } catch (error) {
+            console.log("something went wrong in auth process");
+            throw error;
+        }
+    }
+
     createToken(user){
         try {
             const result = jwt.sign(user, JWT_KEY, { expiresIn: '1h'});
@@ -72,6 +89,16 @@ class UserService{
             return bcrypt.compareSync(userInputPlainPassword, encryptedPassword);
         } catch (error) {
             console.log("something went wrong in password comparison");
+            throw error;
+        }
+    }
+
+    isAdmin(userID) {
+        try {
+            return this.userRepository.isAdmin(userID);
+        } catch (error) {
+            console.log("something went wrong in service layer");
+            throw error;
         }
     }
 }
