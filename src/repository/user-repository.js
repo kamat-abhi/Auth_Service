@@ -1,5 +1,7 @@
-const { ValidationError } = require('../utils/validation-error');
+const  ValidationError  = require('../utils/validation-error');
 const { User, Role } = require('../models/index');
+const ClientError = require('../utils/client-error');
+const { StatusCodes } = require('http-status-codes');
 
 class UserRepository {
     async create(data){
@@ -47,6 +49,14 @@ class UserRepository {
                     email: useremail
                 }
             });
+            if(!user){
+                throw new ClientError(
+                    'AttributeNotFound',
+                    'invalid email sent in the request',
+                    'please check the email and try again',
+                    StatusCodes.NOT_FOUND
+                );
+            }
             return user;
         } catch (error) {
             console.log("Something sent wrong repository layer");
