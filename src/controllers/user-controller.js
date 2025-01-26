@@ -36,24 +36,25 @@ const signIn = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
-        return res.status(error.statusCode).json({
+        return res.status(500).json({
             message: error.message,
             data: {},
             success: false,
-            err: error.explanation
+            err: error
         })
     }
 }
 
-const isAuthenticated = async(req, res) => {
+const isAuthenticate = async(req, res) => {
     try {
         const token = req.headers['x-access-token'];
-        const response = await UserService.isAuthenticated(token);
+        const response = await userService.isAuthenticated(token);
         return res.status(201).json({
             success: true,
+            data: response,
             err: {},
             message: 'user is authenticated and token is valid',
-            data: response
+            
 
         });
 
@@ -88,9 +89,30 @@ const isAdmin = async(req, res) => {
     }
 }
 
+const getAll = async (req, res) => {
+    try {
+        const user = await userService.getAllUser(req.query);
+        return res.status(201).json({
+            data: user,
+            success: true,
+            message: "Successfully fetch a ciity",
+            err: {}
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Not able to get all user",
+            err: error
+        })
+    }
+}
+
 module.exports = {
     create,
     signIn,
-    isAuthenticated,
-    isAdmin
+    isAuthenticate,
+    isAdmin, 
+    getAll
 }

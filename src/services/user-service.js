@@ -16,7 +16,7 @@ class UserService{
             return user;
         } catch (error) {
             if(error.name === 'SequelizeValidationError'){
-                throw error;
+                throw {error};
             }
             console.log("something went wrong in service layer ");
             throw error;
@@ -106,6 +106,16 @@ class UserService{
         } catch (error) {
             console.log("something went wrong in service layer");
             throw error;
+        }
+    }
+
+    async getAllUser(filter) {
+        try {
+            const user = await this.userRepository.getAll({email: filter.email});
+            return user;
+        } catch (error) {
+            console.log("Something went wrong in service layer");
+            throw {error};
         }
     }
 }
